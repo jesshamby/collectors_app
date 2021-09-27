@@ -22,17 +22,20 @@
     /**
     * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe
     */
-    function createRecipeCards($recipes) {
+    function createRecipeCards(array $recipes) {
         if (count($recipes)>0) {
+            $recipeCards = '';
             foreach ($recipes as $recipe) {
-                echo '<section class= "recipe_card">';
-                echo '<h2>' . $recipe['recipe'] . '<h2>';
-                echo '<h3>Cuisine: ' . $recipe['cuisine'] . '</h3>';
-                echo '<h3>Time (mins): ' . $recipe['time'] . '</h3>';
-                echo '<a href=' . $recipe['link'] . '>Link to recipe</a>';
-                echo '</section>';
+                $recipeCards .= '<section class= "recipe_card">';
+                $recipeCards .= "<h2>{$recipe['recipe']}</h2>";
+                $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
+                $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
+                $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
+                $recipeCards .= "</section>";
             }
+            return $recipeCards;
         } else {
-            echo 'No available recipes';
+            $noRecipesError = 'No available recipes';
+            return $noRecipesError;
         }
     }

@@ -1,7 +1,7 @@
 <?php
     require_once('functions.php');
-    createDBConnection();
-    fetchAllRecipes($db);
+    $db = createDBConnection();
+    $recipes = fetchAllRecipes($db);
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 </head>
 <body>
     <?php
-        createRecipeCards(array $recipes);
+        echo createRecipeCards($recipes);
     ?>
 </body>
 </html>
