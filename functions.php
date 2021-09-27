@@ -2,17 +2,17 @@
     /**
     * Creates a connection to the collectorapp database
     */
-    function createDBConnection()
-    {
+    function createDBConnection() :PDO{
         $db = new PDO('mysql:host=db; dbname=collectorapp', 'root', 'password');
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        return $db;
     }
 
     /**
     * A query to the database that fetches the data in all the fields and creates a recipes assoc array
     * @return array
     */
-    function fetchAllRecipes(): array {
+    function fetchAllRecipes($db): array {
         $query = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes`;');
         $query->execute();
         $recipes = $query->fetchAll();
@@ -22,14 +22,17 @@
     /**
     * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe
     */
-    function createRecipeCards()
-    {
-        foreach ($recipes as $recipe) {
-            echo '<section class= "recipe_card">';
-            echo '<h2>' . $recipe['recipe'] . '<h2>';
-            echo '<h3>Cuisine: ' . $recipe['cuisine'] . '</h3>';
-            echo '<h3>Time (mins): ' . $recipe['time'] . '</h3>';
-            echo '<a href=' . $recipe['link'] . '>Link to recipe</a>';
-            echo '</section>';
+    function createRecipeCards($recipes) {
+        if (count($recipes)>0) {
+            foreach ($recipes as $recipe) {
+                echo '<section class= "recipe_card">';
+                echo '<h2>' . $recipe['recipe'] . '<h2>';
+                echo '<h3>Cuisine: ' . $recipe['cuisine'] . '</h3>';
+                echo '<h3>Time (mins): ' . $recipe['time'] . '</h3>';
+                echo '<a href=' . $recipe['link'] . '>Link to recipe</a>';
+                echo '</section>';
+            }
+        } else {
+            echo 'No available recipes';
         }
     }
