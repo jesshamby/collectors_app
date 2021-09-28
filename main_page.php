@@ -8,12 +8,13 @@
     if (!empty($_POST['recipe']) && !empty($_POST['cuisine']) && !empty($_POST['time']) && !empty($_POST['link'])) {
         linkValidation($error);
 
-        if ($error ='') {
+        if ($error === '') {
             $recipe = validateString($_POST['recipe']);
             $cuisine = validateString($_POST['cuisine']);
             $time = $_POST['time'];
             $link = trim($_POST['link']);
-            addNewRecipe($db);
+            addNewRecipe($db, $recipe, $cuisine, $time, $link);
+        } else {
         }
     } else {
         $error = 'All fields are required';

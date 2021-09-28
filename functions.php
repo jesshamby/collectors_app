@@ -55,6 +55,7 @@
 function linkValidation(string $error): string {
     if (!filter_var($_POST['link'], FILTER_VALIDATE_URL)) {
         $error = 'Invalid link';
+    } else {
     }
     return $error;
 }
@@ -72,12 +73,15 @@ function linkValidation(string $error): string {
     }
 
 /**
- *Adds a new recipe, with all the inputted stats, to the db
+ * Adds a new recipe, with all the inputted stats, to the db
  *
- * @param string $error
- * @return string
+ * @param PDO $db
+ * @param string $recipe
+ * @param string $cuisine
+ * @param int $time
+ * @param $link
  */
-    function addNewRecipe(PDO $db) {
+    function addNewRecipe(PDO $db,string $recipe,string $cuisine,int $time, $link) {
         $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
         $insertNewRecipe-> bindParam(':newRecipe', $recipe);
         $insertNewRecipe-> bindParam(':newCuisine', $cuisine);

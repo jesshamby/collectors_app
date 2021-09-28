@@ -36,4 +36,15 @@ $expected = "<section class= 'recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3
 
         $case = createRecipeCards($inputa);
     }
+
+    function testSuccessLinkValidation()
+    {
+        $expected = 'ah';
+
+        $inputa = '     \ah\     ';
+
+        $case = linkValidation($inputa);
+
+        $this->assertEquals($expected, $case);
+    }
 }
