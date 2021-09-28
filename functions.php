@@ -27,17 +27,17 @@
  * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe
  *
  * @param array $recipes
- * @return String
+ * @return string
  */
-    function createRecipeCards(Array $recipes): string {
+    function createRecipeCards(array $recipes): string {
         if (count($recipes)>0) {
             $recipeCards = '';
             foreach ($recipes as $recipe) {
-                $recipeCards .= '<section class= "recipe_card">';
+                $recipeCards .= "<section class= 'recipe_card'>";
                 $recipeCards .= "<h2>{$recipe['recipe']}</h2>";
                 $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
                 $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
-                $recipeCards .= "<a href= '{$recipe['link']}'>Link to recipe</a>";
+                $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
                 $recipeCards .= "</section>";
             }
             return $recipeCards;
