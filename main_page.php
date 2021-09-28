@@ -6,20 +6,14 @@
     $error = '';
 
     if (!empty($_POST['recipe']) && !empty($_POST['cuisine']) && !empty($_POST['time']) && !empty($_POST['link'])) {
-        $recipe = validateString($_POST['recipe']);
-        $cuisine = validateString($_POST['cuisine']);
-        $time = $_POST['time'];
+        linkValidation($error);
 
-        if (!filter_var($_POST['link'],FILTER_VALIDATE_URL)) {
-            echo 'Invalid link';
-        } else {
+        if ($error ='') {
+            $recipe = validateString($_POST['recipe']);
+            $cuisine = validateString($_POST['cuisine']);
+            $time = $_POST['time'];
             $link = trim($_POST['link']);
-            $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
-            $insertNewRecipe-> bindParam(':newRecipe', $recipe);
-            $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
-            $insertNewRecipe-> bindParam(':newTime', $time);
-            $insertNewRecipe-> bindParam(':newLink', $link);
-            $insertNewRecipe->execute();
+            addNewRecipe($db);
         }
     } else {
         $error = 'All fields are required';
