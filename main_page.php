@@ -3,35 +3,26 @@
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
 
-    $recipeErr = $cuisineErr = $timeErr = $linkErr = '';
+    $error = '';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (empty($_POST['recipe'])) {
-            $recipeErr = "Recipe name is required";
+    if (!empty($_POST['recipe']) && !empty($_POST['cuisine']) && !empty($_POST['time']) && !empty($_POST['link'])) {
+        $recipe = validateString($_POST['recipe']);
+        $cuisine = validateString($_POST['cuisine']);
+        $time = $_POST['time'];
+
+        if (!filter_var($_POST['link'],FILTER_VALIDATE_URL)) {
+            echo 'Invalid link';
         } else {
-            $recipe = validateString($_POST['recipe']);
+            $link = trim($_POST['link']);
+            $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
+            $insertNewRecipe-> bindParam(':newRecipe', $recipe);
+            $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
+            $insertNewRecipe-> bindParam(':newTime', $time);
+            $insertNewRecipe-> bindParam(':newLink', $link);
+            $insertNewRecipe->execute();
         }
-
-        if (empty($_POST['cuisine'])) {
-            $cuisineErr = "Cuisine is required";
-        } else {
-            $cuisine = validateString($_POST['cuisine']);
-        }
-
-        if (empty($_POST['time'])) {
-            $timeErr = "Time in minutes is required";
-        } else {
-            $time = $_POST['time'];
-        }
-
-        if (empty($_POST['link'])) {
-            $linkErr = "A link to the recipe is required";
-        } elseif (!filter_var($_POST['link'],FILTER_VALIDATE_URL)) {
-            $linkErr = "Invalid link, please try again";
-        } else {
-            $link = $_POST['link'];
-        }
-
+    } else {
+        $error = 'All fields are required';
     }
 ?>
 
@@ -45,21 +36,18 @@
     <?php
         echo createRecipeCards($recipes);
     ?>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>
+    <form method="post">
         <label for="recipe">Recipe:</label>
         <input name="recipe" type="text">
-        <span class="error"><?php echo $recipeErr ?></span>
         <label for="cuisine">Cuisine:</label>
         <input name="cuisine" type="text">
-        <span class="error"><?php echo $cuisineErr ?></span>
         <label for="time">Time (mins):</label>
         <input name="time" type="number">
-        <span class="error"><?php echo $timeErr ?></span>
         <label for="link">Link to recipe:</label>
         <input name="link" type="url">
-        <span class="error"><?php echo $linkErr ?></span>
         <input type="submit">
     </form>
+    <span><?php echo $error ?></span>
 </body>
 </html>
 
