@@ -45,3 +45,10 @@
             return 'No available recipes';
         }
     }
+
+    function validateStrings($stringInput) {
+        $stringInput = trim($stringInput);
+        $stringInput = stripslashes($stringInput);
+        $stringInput = htmlspecialchars($stringInput);
+        return $stringInput;
+    }
