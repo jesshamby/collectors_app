@@ -17,6 +17,21 @@
         } else {
             $cuisine = validateString($_POST['cuisine']);
         }
+
+        if (empty($_POST['time'])) {
+            $timeErr = "Time in minutes is required";
+        } else {
+            $time = $_POST['time'];
+        }
+
+        if (empty($_POST['link'])) {
+            $linkErr = "A link to the recipe is required";
+        } elseif (!filter_var($_POST['link'],FILTER_VALIDATE_URL)) {
+            $linkErr = "Invalid link, please try again";
+        } else {
+            $link = $_POST['link'];
+        }
+
     }
 ?>
 
@@ -39,8 +54,10 @@
         <span class="error"><?php echo $cuisineErr ?></span>
         <label for="time">Time (mins):</label>
         <input name="time" type="number">
+        <span class="error"><?php echo $timeErr ?></span>
         <label for="link">Link to recipe:</label>
         <input name="link" type="url">
+        <span class="error"><?php echo $linkErr ?></span>
         <input type="submit">
     </form>
 </body>
