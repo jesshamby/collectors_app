@@ -37,14 +37,23 @@ $expected = "<section class= 'recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3
         $case = createRecipeCards($inputa);
     }
 
-    function testSuccessLinkValidation()
+    function testSuccessValidateString()
     {
         $expected = 'ah';
 
         $inputa = '     \ah\     ';
 
-        $case = linkValidation($inputa);
+        $case = validateString($inputa);
 
         $this->assertEquals($expected, $case);
+    }
+
+    function testMalformedValidateString()
+    {
+        $inputa= [];
+
+        $this->expectException(TypeError::class);
+
+        $case = validateString($inputa);
     }
 }
