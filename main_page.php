@@ -2,6 +2,23 @@
     require_once('functions.php');
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
+    if (isset($_POST['edit'])) {
+        header("Locations: edit.php");
+        exit;
+    } elseif (isset($_POST['delete'])) {
+        header("Locations: delete.php");
+        exit;
+    }
+    if (isset($_POST['yesDelete'])) {
+        $recipeName = $_POST['yesDelete'];
+        $query = $db->prepare("SELECT `id` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0' LIMIT 1;");
+        $query->bindParam(':recipe', $recipeName);
+        $query->execute();
+        $idToDelete = $query->fetch();
+        $id = $idToDelete['id'];
+        $query = $db->prepare("UPDATE `recipes` SET `deleted` = '1' WHERE `id` = '$id';");
+        $query->execute();
+    }
 
     $error = '';
 

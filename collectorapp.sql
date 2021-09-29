@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.5.5-10.6.4-MariaDB-1:10.6.4+maria~focal)
 # Database: collectorapp
-# Generation Time: 2021-09-27 09:52:01 +0000
+# Generation Time: 2021-09-29 14:19:27 +0000
 # ************************************************************
 
 
@@ -30,21 +30,27 @@ CREATE TABLE `recipes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `recipe` varchar(100) DEFAULT NULL,
   `cuisine` varchar(100) DEFAULT NULL,
-  `time` tinyint(4) DEFAULT NULL,
+  `time` int(4) DEFAULT NULL,
   `link` varchar(200) DEFAULT NULL,
+  `deleted` tinyint(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `recipes` WRITE;
 /*!40000 ALTER TABLE `recipes` DISABLE KEYS */;
 
-INSERT INTO `recipes` (`id`, `recipe`, `cuisine`, `time`, `link`)
+INSERT INTO `recipes` (`id`, `recipe`, `cuisine`, `time`, `link`, `deleted`)
 VALUES
-	(1,'Katsu Curry','Japanese',45,'https://www.wagamama.com/cook/wok-from-home/curries/chicken-katsu-curry'),
-	(2,'Baked Feta Pasta','Italian',40,'https://youtu.be/U3gvRjIQ6Lo'),
-	(3,'Chocolate Soufflé','French',30,'https://www.spicebangla.com/best-chocolate-souffle/'),
-	(4,'Fancy Beans on Toast','British',20,'https://youtu.be/ydbMAFaA6Uw'),
-	(5,'Seema\'s Dhal','Indian',30,'https://www.mobkitchen.co.uk/recipes/seemas-dhal');
+	(1,'Katsu Curry','Japanese',45,'https://www.wagamama.com/cook/wok-from-home/curries/chicken-katsu-curry',0),
+	(2,'Baked Feta Pasta','Italian',40,'https://youtu.be/U3gvRjIQ6Lo',0),
+	(3,'Chocolate Soufflé','French',30,'https://www.spicebangla.com/best-chocolate-souffle/',0),
+	(4,'Fancy Beans on Toast','British',20,'https://youtu.be/ydbMAFaA6Uw',0),
+	(5,'Seema\'s Dhal','Indian',30,'https://www.mobkitchen.co.uk/recipes/seemas-dhal',0),
+	(8,'Cheddar & Chutney Sausage Rolls','British',60,'https://www.mobkitchen.co.uk/recipes/cheddar-chutney-sausage-rolls',0),
+	(20,'Pork Onigiri','Japanese',150,'https://www.joshuaweissman.com/post/onigiri',1),
+	(21,'Pork Onigiri','Japanese',150,'https://www.joshuaweissman.com/post/onigiri',1),
+	(22,'Pork Onigiri','Japanese',150,'https://www.joshuaweissman.com/post/onigiri',1),
+	(27,'Pork Onigiri','Japanese',150,'https://www.joshuaweissman.com/post/onigiri',1);
 
 /*!40000 ALTER TABLE `recipes` ENABLE KEYS */;
 UNLOCK TABLES;

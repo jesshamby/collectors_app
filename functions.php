@@ -13,11 +13,11 @@
 /**
  * A query to the database that fetches the data in all the fields and creates a recipes assoc array
  *
- * @param $db
+ * @param PDO $db
  * @return array
  */
-    function fetchAllRecipes($db): array {
-        $query = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes`;');
+    function fetchAllRecipes(PDO $db): array {
+        $query = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `deleted` = '0';");
         $query->execute();
         $recipes = $query->fetchAll();
         return $recipes;
@@ -33,12 +33,20 @@
         if (count($recipes)>0) {
             $recipeCards = '';
             foreach ($recipes as $recipe) {
-                $recipeCards .= "<section class= 'recipe_card'>";
+                $recipeCards .= "<section class='recipe_card'>";
                 $recipeCards .= "<h2>{$recipe['recipe']}</h2>";
                 $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
                 $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
                 $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
-                $recipeCards .= "</section>";
+                $recipeCards .= '</section>';
+                $recipeCards .= '<form action="edit.php" method="post">';
+                $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='edit_recipe'>";
+                $recipeCards .= "<button type='submit' name='edit'>Edit Recipe</button>";
+                $recipeCards .= '</form>';
+                $recipeCards .= '<form action="delete.php" method="post">';
+                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='delete_recipe' >";
+                $recipeCards .= "<button type='submit' name='delete'>Delete Recipe</button>";
+                $recipeCards .= '</form>';
             }
             return $recipeCards;
         } else {
@@ -78,10 +86,10 @@ function linkValidation(string $error): string {
  * @param string $recipe
  * @param string $cuisine
  * @param int $time
- * @param $link
+ * @param string $link
  */
-    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, $link) {
-        $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
+    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, string $link) {
+        $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`, `deleted`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink, 0);");
         $insertNewRecipe-> bindParam(':newRecipe', $recipe);
         $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
         $insertNewRecipe-> bindParam(':newTime', $time);
