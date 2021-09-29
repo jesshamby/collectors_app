@@ -45,3 +45,46 @@
             return 'No available recipes';
         }
     }
+
+/**
+ * Takes an inputted link and checks it is valid, if not it returns an error.
+ *
+ * @param string $error
+ * @return string
+ */
+function linkValidation(string $error): string {
+    if (!filter_var($_POST['link'], FILTER_VALIDATE_URL)) {
+        $error = 'Invalid link';
+    }
+    return $error;
+}
+
+ /**
+  * Takes a string and removes any whitespace either side, removes black slashes
+  *
+ * @param string $stringInput
+ * @return string
+ */
+    function validateString(string $stringInput): string {
+        $stringInput = trim($stringInput);
+        $stringInput = stripslashes($stringInput);
+        return $stringInput;
+    }
+
+/**
+ * Adds a new recipe, with all the inputted stats, to the db
+ *
+ * @param PDO $db
+ * @param string $recipe
+ * @param string $cuisine
+ * @param int $time
+ * @param $link
+ */
+    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, $link) {
+        $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
+        $insertNewRecipe-> bindParam(':newRecipe', $recipe);
+        $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
+        $insertNewRecipe-> bindParam(':newTime', $time);
+        $insertNewRecipe-> bindParam(':newLink', $link);
+        $insertNewRecipe->execute();
+    }
