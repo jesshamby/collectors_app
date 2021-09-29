@@ -2,6 +2,14 @@
     require_once('functions.php');
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
+    if (isset($_POST['edit'])) {
+        header("Locations: edit.php");
+        exit;
+    }
+    if (isset($_POST['delete'])) {
+        header("Locations: delete.php");
+        exit;
+    }
 
     $error = '';
 
