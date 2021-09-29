@@ -38,7 +38,7 @@
                 $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
                 $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
                 $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
-                $recipeCards .= "</section>";
+                $recipeCards .= '</section>';
             }
             return $recipeCards;
         } else {
