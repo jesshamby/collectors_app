@@ -18,6 +18,14 @@
         $id = $idToDelete['id'];
         $query = $db->prepare("UPDATE `recipes` SET `deleted` = '1' WHERE `id` = '$id';");
         $query->execute();
+    } elseif (isset($_POST['editedRecipe'])) {
+        $recipeEdits = ['recipe' => $_POST['editRecipe'], 'cuisine' => $_POST['editCuisine'], 'time' => $_POST['editTime'], 'link' => $_POST['editLink']];
+        $query = $db->prepare("UPDATE `recipes` SET `recipe` = :recipe, `cuisine` = :cuisine, `time` = :time, `link` = :link WHERE `recipe` = :recipe LIMIT 1");
+        $query-> bindParam(':recipe', $recipeEdits['recipe']);
+        $query-> bindParam(':cuisine', $recipeEdits['cuisine']);
+        $query-> bindParam(':time', $recipeEdits['time']);
+        $query-> bindParam(':link', $recipeEdits['link']);
+        $query->execute();
     }
 
     $error = '';
