@@ -38,7 +38,13 @@
                 $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
                 $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
                 $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
-                $recipeCards .= "</section>";
+                $recipeCards .= '</section>';
+                $recipeCards .= "<form action=edit.php>";
+                $recipeCards .= '<button type="button" name= "$recipe">Edit Recipe</button>';
+                $recipeCards .= '</form>';
+                $recipeCards .= "<form action=delete.php>";
+                $recipeCards .= '<button type="button" name= "$recipe">Delete Recipe</button>';
+                $recipeCards .= '</form>';
             }
             return $recipeCards;
         } else {
