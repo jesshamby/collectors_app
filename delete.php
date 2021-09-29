@@ -18,10 +18,9 @@
 <body>
     <p>Are you sure you want to permanently delete the recipe: <?php echo $_POST['delete_recipe'] ?></p>
     <form action="main_page.php" method="post">
-        <button type="submit" name="yesDelete">Yes</button>
+        <button type="submit" name="yesDelete" value= "<?php echo $_POST['delete_recipe']?>">Yes</button>
         <button type="submit" name="noDelete">No</button>
     </form>
-
 </body>
 </html>
 

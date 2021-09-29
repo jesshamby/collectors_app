@@ -17,7 +17,7 @@
  * @return array
  */
     function fetchAllRecipes($db): array {
-        $query = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes`;');
+        $query = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `deleted` = '0';");
         $query->execute();
         $recipes = $query->fetchAll();
         return $recipes;
@@ -40,7 +40,7 @@
                 $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
                 $recipeCards .= '</section>';
                 $recipeCards .= '<form action="edit.php" method="post">';
-                $recipeCards .= "<input type='hidden' value= {$recipe['recipe']} name='edit_recipe'>";
+                $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='edit_recipe'>";
                 $recipeCards .= "<button type='submit' name='edit'>Edit Recipe</button>";
                 $recipeCards .= '</form>';
                 $recipeCards .= '<form action="delete.php" method="post">';
@@ -89,7 +89,7 @@ function linkValidation(string $error): string {
  * @param $link
  */
     function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, $link) {
-        $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink);");
+        $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`, `deleted`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink, 0);");
         $insertNewRecipe-> bindParam(':newRecipe', $recipe);
         $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
         $insertNewRecipe-> bindParam(':newTime', $time);

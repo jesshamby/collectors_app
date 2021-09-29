@@ -10,6 +10,15 @@
         header("Locations: delete.php");
         exit;
     }
+    if (isset($_POST['yesDelete'])) {
+        $recipeName = $_POST['yesDelete'];
+        $query = $db->prepare("SELECT `id` FROM `recipes` WHERE `recipe` = '$recipeName' AND `deleted` = '0' LIMIT 1;");
+        $query->execute();
+        $idToDelete = $query->fetch();
+        $id = $idToDelete['id'];
+        $query = $db->prepare("UPDATE `recipes` SET `deleted` = '1' WHERE `id` = '$id';");
+        $query->execute();
+    }
 
     $error = '';
 
