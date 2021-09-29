@@ -14,7 +14,6 @@
             $time = $_POST['time'];
             $link = trim($_POST['link']);
             addNewRecipe($db, $recipe, $cuisine, $time, $link);
-        } else {
         }
     } else {
         $error = 'All fields are required';
