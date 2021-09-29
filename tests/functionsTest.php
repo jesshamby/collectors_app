@@ -19,7 +19,7 @@ $expected = "<section class= 'recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3
 
     function testSuccessCreateRecipeCards2()
     {
-        $expected = "No available recipes";
+        $expected = 'No available recipes';
 
         $inputa = [];
 
@@ -30,7 +30,7 @@ $expected = "<section class= 'recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3
 
     function testMalformedCreateRecipeCards()
     {
-        $inputa = "hello";
+        $inputa = 'hello';
 
         $this->expectException(TypeError::class);
 

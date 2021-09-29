@@ -32,14 +32,18 @@
         echo createRecipeCards($recipes);
     ?>
     <form method="post">
-        <label for="recipe">Recipe:</label>
-        <input name="recipe" type="text">
-        <label for="cuisine">Cuisine:</label>
-        <input name="cuisine" type="text">
-        <label for="time">Time (mins):</label>
-        <input name="time" type="number">
-        <label for="link">Link to recipe:</label>
-        <input name="link" type="url">
+        <label for="recipe">Recipe:
+            <input name="recipe" type="text">
+        </label>
+        <label for="cuisine">Cuisine:
+            <input name="cuisine" type="text">
+        </label>
+        <label for="time">Time (mins):
+            <input name="time" type="number">
+        </label>
+        <label for="link">Link to recipe:
+            <input name="link" type="url">
+        </label>
         <input type="submit">
     </form>
     <span><?php echo $error ?></span>
