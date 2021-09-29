@@ -13,10 +13,10 @@
 /**
  * A query to the database that fetches the data in all the fields and creates a recipes assoc array
  *
- * @param $db
+ * @param PDO $db
  * @return array
  */
-    function fetchAllRecipes($db): array {
+    function fetchAllRecipes(PDO $db): array {
         $query = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `deleted` = '0';");
         $query->execute();
         $recipes = $query->fetchAll();
@@ -86,9 +86,9 @@ function linkValidation(string $error): string {
  * @param string $recipe
  * @param string $cuisine
  * @param int $time
- * @param $link
+ * @param string $link
  */
-    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, $link) {
+    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, string $link) {
         $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`, `deleted`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink, 0);");
         $insertNewRecipe-> bindParam(':newRecipe', $recipe);
         $insertNewRecipe-> bindParam(':newCuisine', $cuisine);

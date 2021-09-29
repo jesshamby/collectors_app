@@ -1,9 +1,5 @@
 <?php
-    if (isset($_POST['noDelete'])) {
-        header("Locations: main_page.php");
-        exit;
-    }
-    if (isset($_POST['yesDelete'])) {
+    if (isset($_POST['noDelete'], $_POST['yesDelete'])) {
         header("Locations: main_page.php");
         exit;
     }
