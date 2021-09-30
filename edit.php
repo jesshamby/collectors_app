@@ -2,11 +2,7 @@
     require_once('functions.php');
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
-
-    $findRecipeEdit = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0';");
-    $findRecipeEdit->bindParam(':recipe', $_POST['editRecipe']);
-    $findRecipeEdit->execute();
-    $recipeEdit = $findRecipeEdit->fetch();
+    $recipeEdit = findRecipe($db);
 ?>
 
 <!DOCTYPE html>

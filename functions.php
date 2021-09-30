@@ -96,3 +96,17 @@ function linkValidation(string $error): string {
         $insertNewRecipe-> bindParam(':newLink', $link);
         $insertNewRecipe->execute();
     }
+
+/**
+ * Finds the recipe in the db that the user wants to edit
+ *
+ * @param PDO $db
+ * @return array
+ */
+    function findRecipe(PDO $db): array {
+        $findRecipeEdit = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0';");
+        $findRecipeEdit->bindParam(':recipe', $_POST['editRecipe']);
+        $findRecipeEdit->execute();
+        $recipeEdit = $findRecipeEdit->fetch();
+        return $recipeEdit;
+    }
