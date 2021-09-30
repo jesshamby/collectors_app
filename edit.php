@@ -2,12 +2,15 @@
     require_once('functions.php');
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
-    $recipeToEdit = findRecipe($db);
-    if (isset($_POST['editedRecipe'])) {
-        $editRecipe = editRecipe($db, $recipeToEdit);
-        if ($editRecipe) {
-            header("Location: main_page.php");
-            exit;
+    if (isset($_POST['editRecipe'])) {
+        $id = $_POST['editRecipe'];
+        $recipeToEdit = findRecipe($db, $id);
+        if (isset($_POST['editedRecipe'])) {
+            $editRecipe = editRecipe($db, $recipeToEdit);
+            if ($editRecipe) {
+                header("Location: main_page.php");
+                exit;
+            }
         }
     }
 ?>

@@ -103,9 +103,9 @@ function linkValidation(string $error): string {
  * @param PDO $db
  * @return array
  */
-    function findRecipe(PDO $db): array {
-        $findRecipeEdit = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = 0;');
-        $findRecipeEdit->bindParam(':recipe', $_POST['editRecipe']);
+    function findRecipe(PDO $db, $id): array {
+        $findRecipeEdit = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `id` = :id AND `deleted` = 0;');
+        $findRecipeEdit->bindParam(':id', $id);
         $findRecipeEdit->execute();
         return $findRecipeEdit->fetch();
     }
@@ -133,13 +133,8 @@ function linkValidation(string $error): string {
  * @param PDO $db
  */
     function deleteRecipe(PDO $db, $id) {
-//            $findRecipeDelete = $db->prepare("SELECT `id` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = 0 LIMIT 1;");
-//            $findRecipeDelete->bindParam(':recipe', $_POST['yesDelete']);
-//            $findRecipeDelete->execute();
-//            $idToDelete = $findRecipeDelete->fetch();
             $deleteRecipe = $db->prepare("UPDATE `recipes` SET `deleted` = 1 WHERE `id` = :id;");
             $deleteRecipe->bindParam(':id', $id);
-//            $deleteRecipe->bindParam(':id', $idToDelete['id']);
             return $deleteRecipe->execute();
     }
 
