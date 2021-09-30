@@ -10,6 +10,11 @@
         exit;
     }
 
+    if (isset($_POST['editRecipe'])) {
+        echo $_POST['editRecipe'];
+        echo $_POST['editTime'];
+    }
+
     $error = '';
 
     if (!empty($_POST['addRecipe']) && !empty($_POST['addCuisine']) && !empty($_POST['addTime']) && !empty($_POST['addLink'])) {

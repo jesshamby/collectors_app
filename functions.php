@@ -115,22 +115,21 @@ function linkValidation(string $error): string {
  * Updates the db to edit the recipe the user has clicked on
  *
  * @param PDO $db
+ * @param array $recipeToEdit
  */
-    function editRecipe (PDO $db) {
-        if (isset($_POST['editedRecipe'])){
-            $recipeEdits = ['recipe' => $_POST['editRecipe'], 'cuisine' => $_POST['editCuisine'], 'time' => $_POST['editTime'], 'link' => $_POST['editLink']];
-            $query = $db->prepare("UPDATE `recipes` SET `recipe` = :recipe, `cuisine` = :cuisine, `time` = :time, `link` = :link WHERE `recipe` = :recipe LIMIT 1");
-            $query->bindParam(':recipe', $recipeEdits['recipe']);
-            $query->bindParam(':cuisine', $recipeEdits['cuisine']);
-            $query->bindParam(':time', $recipeEdits['time']);
-            $query->bindParam(':link', $recipeEdits['link']);
-            $query->execute();
-        }
+    function editRecipe(PDO $db,array $recipeToEdit) {
+            $editRecipe = $db->prepare("UPDATE `recipes` SET `recipe` = :editRecipe, `cuisine` = :editCuisine, `time` = :editTime, `link` = :editLink WHERE `recipe` = :oldRecipe LIMIT 1;");
+            $editRecipe->bindParam(':oldRecipe', $recipeToEdit['recipe']);
+            $editRecipe->bindParam(':editRecipe', $_POST['editRecipe']);
+            $editRecipe->bindParam(':editCuisine', $_POST['editCuisine']);
+            $editRecipe->bindParam(':editTime', $_POST['editTime']);
+            $editRecipe->bindParam(':editLink', $_POST['editLink']);
+            $editRecipe->execute();
     }
 
 /**
  * Updates the db to set the deleted flag and remove the recipe from users screen
- * 
+ *
  * @param PDO $db
  */
     function deleteRecipe(PDO $db) {

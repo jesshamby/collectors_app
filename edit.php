@@ -3,7 +3,9 @@
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
     $recipeToEdit = findRecipe($db);
-    editRecipe($db);
+    if (isset($_POST['editedRecipe'])) {
+        editRecipe($db, $recipeToEdit);
+    }
 ?>
 
 <!DOCTYPE html>
