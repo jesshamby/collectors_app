@@ -24,7 +24,7 @@
 
 /**
  * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe as wll as and edit
- * and delete button which takes the user to a new page 
+ * and delete button which takes the user to a new page
  *
  * @param array $recipes
  * @return string
@@ -33,18 +33,18 @@
         if (count($recipes)>0) {
             $recipeCards = '';
             foreach ($recipes as $recipe) {
-                $recipeCards .= '<section class="recipe_card">';
-                $recipeCards .= '<h2>{$recipe["recipe"]}</h2>';
-                $recipeCards .= '<h3>Cuisine: {$recipe["cuisine"]}</h3>';
-                $recipeCards .= '<h3>Time (mins): {$recipe["time"]}</h3>';
-                $recipeCards .= '<a href= {$recipe["link"]}>Link to recipe</a>';
+                $recipeCards .= "<section class='recipe_card'>";
+                $recipeCards .= "<h2>{$recipe['recipe']}</h2>";
+                $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
+                $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
+                $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
                 $recipeCards .= '</section>';
-                $recipeCards .= '<form action="edit.php" method="post">';
-                $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='editRecipe'>";
+                $recipeCards .= "<form action='edit.php' method='post'>";
+                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='editRecipe'>";
                 $recipeCards .= "<button type='submit' name='edit'>Edit Recipe</button>";
                 $recipeCards .= '</form>';
-                $recipeCards .= '<form action="delete.php" method="post">';
-                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='deleteRecipe' >";
+                $recipeCards .= "<form action='delete.php' method='post'>";
+                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='deleteRecipe'>";
                 $recipeCards .= "<button type='submit' name='delete'>Delete Recipe</button>";
                 $recipeCards .= '</form>';
             }

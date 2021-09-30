@@ -8,7 +8,7 @@ class functionsTest extends TestCase
 {
     function testSuccessCreateRecipeCards()
     {
-$expected = "<section class= 'recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3>Time (mins): 1</h3><a href= https://www.google.com/>Link to recipe</a></section>";
+        $expected = "<section class='recipe_card'><h2>eggs</h2><h3>Cuisine: all</h3><h3>Time (mins): 1</h3><a href= https://www.google.com/>Link to recipe</a></section><form action='edit.php' method='post'><input type='hidden' value='eggs' name='editRecipe'><button type='submit' name='edit'>Edit Recipe</button></form><form action='delete.php' method='post'><input type='hidden' value='eggs' name='deleteRecipe'><button type='submit' name='delete'>Delete Recipe</button></form>";
 
         $inputa = [['recipe' => 'eggs', 'cuisine' => 'all', 'time' => '1', 'link' => 'https://www.google.com/']];
 
