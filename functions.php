@@ -61,7 +61,7 @@
  * @return string
  */
 function linkValidation(string $error): string {
-    if (!filter_var($_POST['link'], FILTER_VALIDATE_URL)) {
+    if (!filter_var($_POST['addLink'], FILTER_VALIDATE_URL)) {
         $error = 'Invalid link';
     }
     return $error;
@@ -109,4 +109,36 @@ function linkValidation(string $error): string {
         $findRecipeEdit->execute();
         $recipeEdit = $findRecipeEdit->fetch();
         return $recipeEdit;
+    }
+
+/**
+ * Updates the db to edit the recipe the user has clicked on
+ *
+ * @param PDO $db
+ */
+    function editRecipe (PDO $db) {
+        if (isset($_POST['editedRecipe'])){
+            $recipeEdits = ['recipe' => $_POST['editRecipe'], 'cuisine' => $_POST['editCuisine'], 'time' => $_POST['editTime'], 'link' => $_POST['editLink']];
+            $query = $db->prepare("UPDATE `recipes` SET `recipe` = :recipe, `cuisine` = :cuisine, `time` = :time, `link` = :link WHERE `recipe` = :recipe LIMIT 1");
+            $query->bindParam(':recipe', $recipeEdits['recipe']);
+            $query->bindParam(':cuisine', $recipeEdits['cuisine']);
+            $query->bindParam(':time', $recipeEdits['time']);
+            $query->bindParam(':link', $recipeEdits['link']);
+            $query->execute();
+        }
+    }
+
+/**
+ * Updates the db to set the deleted flag and remove the recipe from users screen
+ * 
+ * @param PDO $db
+ */
+    function deleteRecipe(PDO $db) {
+            $findRecipeDelete = $db->prepare("SELECT `id` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = 0 LIMIT 1;");
+            $findRecipeDelete->bindParam(':recipe', $_POST['yesDelete']);
+            $findRecipeDelete->execute();
+            $idToDelete = $findRecipeDelete->fetch();
+            $deleteRecipe = $db->prepare("UPDATE `recipes` SET `deleted` = 1 WHERE `id` = :id;");
+            $deleteRecipe->bindParam(':id', $idToDelete['id']);
+            $deleteRecipe->execute();
     }

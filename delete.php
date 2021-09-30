@@ -1,7 +1,15 @@
 <?php
-    if (isset($_POST['noDelete'], $_POST['yesDelete'])) {
-        header("Locations: main_page.php");
-        exit;
+    require_once('functions.php');
+    $db = createDBConnection();
+    if (isset($_POST['yesDelete'])) {
+        $deletedRecipe = deleteRecipe($db);
+        if ($deletedRecipe) {
+            header("Locations: main_page.php");
+            exit;
+        } elseif (isset($_POST['noDelete'])) {
+            header("Locations: main_page.php");
+            exit;
+        }
     }
 ?>
 
