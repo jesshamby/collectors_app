@@ -10,11 +10,6 @@
         exit;
     }
 
-    if (isset($_POST['editRecipe'])) {
-        echo $_POST['editRecipe'];
-        echo $_POST['editTime'];
-    }
-
     $error = '';
 
     if (!empty($_POST['addRecipe']) && !empty($_POST['addCuisine']) && !empty($_POST['addTime']) && !empty($_POST['addLink'])) {
@@ -27,7 +22,7 @@
             $link = trim($_POST['addLink']);
             addNewRecipe($db, $recipe, $cuisine, $time, $link);
         }
-    } else {
+    } elseif (!empty($_POST['addRecipe']) Xor !empty($_POST['addCuisine']) Xor !empty($_POST['addTime']) Xor !empty($_POST['addLink'])) {
         $error = 'All fields are required';
     }
 ?>
