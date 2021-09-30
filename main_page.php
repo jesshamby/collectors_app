@@ -2,20 +2,27 @@
     require_once('functions.php');
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
+    if (isset($_POST['edit'])) {
+        header("Locations: edit.php");
+        exit;
+    } elseif (isset($_POST['delete'])) {
+        header("Locations: delete.php");
+        exit;
+    }
 
     $error = '';
 
-    if (!empty($_POST['recipe']) && !empty($_POST['cuisine']) && !empty($_POST['time']) && !empty($_POST['link'])) {
+    if (!empty($_POST['addRecipe']) && !empty($_POST['addCuisine']) && !empty($_POST['addTime']) && !empty($_POST['addLink'])) {
         linkValidation($error);
 
         if ($error === '') {
-            $recipe = validateString($_POST['recipe']);
-            $cuisine = validateString($_POST['cuisine']);
-            $time = $_POST['time'];
-            $link = trim($_POST['link']);
+            $recipe = validateString($_POST['addRecipe']);
+            $cuisine = validateString($_POST['addCuisine']);
+            $time = $_POST['addTime'];
+            $link = trim($_POST['addLink']);
             addNewRecipe($db, $recipe, $cuisine, $time, $link);
         }
-    } else {
+    } elseif (!empty($_POST['addRecipe']) Xor !empty($_POST['addCuisine']) Xor !empty($_POST['addTime']) Xor !empty($_POST['addLink'])) {
         $error = 'All fields are required';
     }
 ?>
@@ -32,16 +39,16 @@
     ?>
     <form method="post">
         <label>Recipe:
-            <input name="recipe" type="text">
+            <input name="addRecipe" type="text">
         </label>
         <label>Cuisine:
-            <input name="cuisine" type="text">
+            <input name="addCuisine" type="text">
         </label>
         <label>Time (mins):
-            <input name="time" type="number">
+            <input name="addTime" type="number">
         </label>
         <label>Link to recipe:
-            <input name="link" type="url">
+            <input name="addLink" type="url">
         </label>
         <input type="submit">
     </form>
