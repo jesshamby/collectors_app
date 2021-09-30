@@ -40,11 +40,11 @@
                 $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
                 $recipeCards .= '</section>';
                 $recipeCards .= '<form action="edit.php" method="post">';
-                $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='edit_recipe'>";
+                $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='editRecipe'>";
                 $recipeCards .= "<button type='submit' name='edit'>Edit Recipe</button>";
                 $recipeCards .= '</form>';
                 $recipeCards .= '<form action="delete.php" method="post">';
-                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='delete_recipe' >";
+                $recipeCards .= "<input type='hidden' value='{$recipe['recipe']}' name='deleteRecipe' >";
                 $recipeCards .= "<button type='submit' name='delete'>Delete Recipe</button>";
                 $recipeCards .= '</form>';
             }

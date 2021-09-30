@@ -3,11 +3,10 @@
     $db = createDBConnection();
     $recipes = fetchAllRecipes($db);
 
-    $recipeName = $_POST['edit_recipe'];
-    $query = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0';");
-    $query->bindParam(':recipe', $recipeName);
-    $query->execute();
-    $recipe = $query->fetch();
+    $findRecipeEdit = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0';");
+    $findRecipeEdit->bindParam(':recipe', $_POST['editRecipe']);
+    $findRecipeEdit->execute();
+    $recipeEdit = $findRecipeEdit->fetch();
 ?>
 
 <!DOCTYPE html>
@@ -19,19 +18,18 @@
 <body>
     <form action ="main_page.php" method="post">
         <label>Recipe:
-            <input name="editRecipe" type="text" value="<?php echo $recipe['recipe'] ?>">
+            <input name="editRecipe" type="text" value="<?php echo $recipeEdit['recipe'] ?>">
         </label>
         <label>Cuisine:
-            <input name="editCuisine" type="text" value="<?php echo $recipe['cuisine'] ?>">
+            <input name="editCuisine" type="text" value="<?php echo $recipeEdit['cuisine'] ?>">
         </label>
         <label>Time (mins):
-            <input name="editTime" type="number" value="<?php echo $recipe['time'] ?>">
+            <input name="editTime" type="number" value="<?php echo $recipeEdit['time'] ?>">
         </label>
         <label>Link to recipe:
-            <input name="editLink" type="url" value="<?php echo $recipe['link'] ?>">
+            <input name="editLink" type="url" value="<?php echo $recipeEdit['link'] ?>">
         </label>
         <input type="submit" name="editedRecipe">
-</form>
-
+    </form>
 </body>
 </html>
