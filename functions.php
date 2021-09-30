@@ -1,6 +1,6 @@
 <?php
 /**
- * Creates a connection to the collectorapp database
+ * Creates a connection to the collectorApp database
  *
  * @return PDO
  */
@@ -17,14 +17,14 @@
  * @return array
  */
     function fetchAllRecipes(PDO $db): array {
-        $query = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `deleted` = '0';");
+        $query = $db->prepare('SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `deleted` = 0;');
         $query->execute();
-        $recipes = $query->fetchAll();
-        return $recipes;
+        return $query->fetchAll();
     }
 
 /**
- * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe
+ * Creates recipe cards which have a name as well as stats on cuisine, time and a link to the recipe as wll as and edit
+ * and delete button which takes the user to a new page 
  *
  * @param array $recipes
  * @return string
@@ -33,11 +33,11 @@
         if (count($recipes)>0) {
             $recipeCards = '';
             foreach ($recipes as $recipe) {
-                $recipeCards .= "<section class='recipe_card'>";
-                $recipeCards .= "<h2>{$recipe['recipe']}</h2>";
-                $recipeCards .= "<h3>Cuisine: {$recipe['cuisine']}</h3>";
-                $recipeCards .= "<h3>Time (mins): {$recipe['time']}</h3>";
-                $recipeCards .= "<a href= {$recipe['link']}>Link to recipe</a>";
+                $recipeCards .= '<section class="recipe_card">';
+                $recipeCards .= '<h2>{$recipe["recipe"]}</h2>';
+                $recipeCards .= '<h3>Cuisine: {$recipe["cuisine"]}</h3>';
+                $recipeCards .= '<h3>Time (mins): {$recipe["time"]}</h3>';
+                $recipeCards .= '<a href= {$recipe["link"]}>Link to recipe</a>';
                 $recipeCards .= '</section>';
                 $recipeCards .= '<form action="edit.php" method="post">';
                 $recipeCards .= "<input type='hidden' value= '{$recipe['recipe']}' name='editRecipe'>";
@@ -75,8 +75,7 @@ function linkValidation(string $error): string {
  */
     function validateString(string $stringInput): string {
         $stringInput = trim($stringInput);
-        $stringInput = stripslashes($stringInput);
-        return $stringInput;
+        return stripslashes($stringInput);
     }
 
 /**
@@ -87,8 +86,9 @@ function linkValidation(string $error): string {
  * @param string $cuisine
  * @param int $time
  * @param string $link
+ * @return void
  */
-    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, string $link) {
+    function addNewRecipe(PDO $db, string $recipe, string $cuisine, int $time, string $link): void {
         $insertNewRecipe = $db->prepare( "INSERT INTO `recipes` (`recipe`, `cuisine`, `time`, `link`, `deleted`) VALUES (:newRecipe, :newCuisine, :newTime, :newLink, 0);");
         $insertNewRecipe-> bindParam(':newRecipe', $recipe);
         $insertNewRecipe-> bindParam(':newCuisine', $cuisine);
@@ -107,8 +107,7 @@ function linkValidation(string $error): string {
         $findRecipeEdit = $db->prepare("SELECT `recipe`, `cuisine`, `time`, `link` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = '0';");
         $findRecipeEdit->bindParam(':recipe', $_POST['editRecipe']);
         $findRecipeEdit->execute();
-        $recipeEdit = $findRecipeEdit->fetch();
-        return $recipeEdit;
+        return $findRecipeEdit->fetch();
     }
 
 /**
@@ -116,8 +115,9 @@ function linkValidation(string $error): string {
  *
  * @param PDO $db
  * @param array $recipeToEdit
+ * @return bool
  */
-    function editRecipe(PDO $db, array $recipeToEdit) {
+    function editRecipe(PDO $db, array $recipeToEdit): bool {
             $editRecipe = $db->prepare("UPDATE `recipes` SET `recipe` = :editRecipe, `cuisine` = :editCuisine, `time` = :editTime, `link` = :editLink WHERE `recipe` = :oldRecipe LIMIT 1;");
             $editRecipe->bindParam(':oldRecipe', $recipeToEdit['recipe']);
             $editRecipe->bindParam(':editRecipe', $_POST['editRecipe']);
@@ -131,8 +131,9 @@ function linkValidation(string $error): string {
  * Updates the db to set the deleted flag and remove the recipe from users screen
  *
  * @param PDO $db
+ * @return void
  */
-    function deleteRecipe(PDO $db) {
+    function deleteRecipe(PDO $db): void {
             $findRecipeDelete = $db->prepare("SELECT `id` FROM `recipes` WHERE `recipe` = :recipe AND `deleted` = 0 LIMIT 1;");
             $findRecipeDelete->bindParam(':recipe', $_POST['yesDelete']);
             $findRecipeDelete->execute();

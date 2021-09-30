@@ -6,10 +6,10 @@
         if ($deletedRecipe) {
             header("Locations: main_page.php");
             exit;
-        } elseif (isset($_POST['noDelete'])) {
-            header("Locations: main_page.php");
-            exit;
         }
+    } elseif (isset($_POST['noDelete'])) {
+        header("Locations: main_page.php");
+        exit;
     }
 ?>
 
