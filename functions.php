@@ -117,14 +117,14 @@ function linkValidation(string $error): string {
  * @param PDO $db
  * @param array $recipeToEdit
  */
-    function editRecipe(PDO $db,array $recipeToEdit) {
+    function editRecipe(PDO $db, array $recipeToEdit) {
             $editRecipe = $db->prepare("UPDATE `recipes` SET `recipe` = :editRecipe, `cuisine` = :editCuisine, `time` = :editTime, `link` = :editLink WHERE `recipe` = :oldRecipe LIMIT 1;");
             $editRecipe->bindParam(':oldRecipe', $recipeToEdit['recipe']);
             $editRecipe->bindParam(':editRecipe', $_POST['editRecipe']);
             $editRecipe->bindParam(':editCuisine', $_POST['editCuisine']);
             $editRecipe->bindParam(':editTime', $_POST['editTime']);
             $editRecipe->bindParam(':editLink', $_POST['editLink']);
-            $editRecipe->execute();
+            return $editRecipe->execute();
     }
 
 /**

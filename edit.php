@@ -4,7 +4,11 @@
     $recipes = fetchAllRecipes($db);
     $recipeToEdit = findRecipe($db);
     if (isset($_POST['editedRecipe'])) {
-        editRecipe($db, $recipeToEdit);
+        $editRecipe = editRecipe($db, $recipeToEdit);
+        if ($editRecipe) {
+            header("Location: main_page.php");
+            exit;
+        }
     }
 ?>
 
@@ -15,7 +19,7 @@
     <title>Edit Recipe</title>
 </head>
 <body>
-    <form action ="main_page.php" method="post">
+    <form action ="edit.php" method="post">
         <label>Recipe:
             <input name="editRecipe" type="text" value="<?php echo $recipeToEdit['recipe'] ?>">
         </label>
