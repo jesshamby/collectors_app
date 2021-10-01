@@ -15,7 +15,7 @@
             $link = trim($_POST['link']);
             addNewRecipe($db, $recipe, $cuisine, $time, $link);
         }
-    } else {
+    } elseif (!empty($_POST['recipe']) Xor !empty($_POST['cuisine']) Xor !empty($_POST['time']) Xor !empty($_POST['link'])) {
         $error = 'All fields are required';
     }
 ?>
